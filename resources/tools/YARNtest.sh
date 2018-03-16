@@ -1,7 +1,7 @@
 #!/bin/sh
 # Confirm the path values given below correspond to your installation
 
-MR=/opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce
+MR=/opt/cloudera/parcels/CDH-5.9.3-1.cdh5.9.3.p0.4/lib/hadoop-0.20-mapreduce
 HADOOP=/opt/cloudera/parcels/CDH/bin
 
 # Mark start of the loop
@@ -22,13 +22,13 @@ do
          # Set reducer JVM heap 
          RED_MB=`echo "($k*0.8)/1" | bc` 
 
-        time ${HADOOP}/hadoop jar ${MR}/hadoop-examples.jar teragen \
+        time hadoop jar ${MR}/hadoop-examples.jar teragen \
                      -Dmapreduce.job.maps=$i \
                      -Dmapreduce.map.memory.mb=$k \
                      -Dmapreduce.map.java.opts.max.heap=$MAP_MB \
                      51200000 /results/tg-10GB-${i}-${j}-${k} 1>tera_${i}_${j}_${k}.out 2>tera_${i}_${j}_${k}.err                       
 
-       time ${HADOOP}/hadoop jar $MR/hadoop-examples.jar terasort \
+       time hadoop jar $MR/hadoop-examples.jar terasort \
                      -Dmapreduce.job.maps=$i \
                      -Dmapreduce.job.reduces=$j \
                      -Dmapreduce.map.memory.mb=$k \

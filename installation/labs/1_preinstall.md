@@ -1,6 +1,11 @@
 # CM Install Lab
 
 ##  System Configuration Checks
+ssh-copy-id -i ~/.ssh/id_rsa.pub brian@52.138.194.82
+ssh-copy-id -i ~/.ssh/id_rsa.pub brian@52.138.194.134
+ssh-copy-id -i ~/.ssh/id_rsa.pub brian@52.138.192.49
+ssh-copy-id -i ~/.ssh/id_rsa.pub brian@52.169.13.23
+ssh-copy-id -i ~/.ssh/id_rsa.pub brian@52.178.195.11
 
 ##1. Add password for my user
 `sudo nano /etc/sudoers.d/waagent`
@@ -41,6 +46,7 @@ SELINUX=disabled
 ##4. Disable iptables and firewalls
 ```
 sudo su -
+systemctl stop iptables
 systemctl stop firewalld
 systemctl disable firewalld
 iptables -F
@@ -52,6 +58,7 @@ iptables -t mangle -X
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
+
 ```
 
 ##5. Check vm.swappiness on all your nodes and set to 1
@@ -86,9 +93,9 @@ echo never > /sys/kernel/mm/transparent_hugepage/defrag
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 ```
 `sudo chmod +x /etc/rc.d/rc.local`
-
+sudo mkdir /boot/grub
 `sudo nano /boot/grub/grub.conf`
-
+transparent_hugepage=never
 `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
 
 `sudo reboot`
@@ -208,6 +215,9 @@ pid-file=/var/run/mariadb/mariadb.pid
 ```
 mariadb.service                               enabled
 ```
+
+sudo /usr/bin/mysql_secure_installation
+
 ######start MariaDB to finish config
 `[root@lion phadmin]# sudo service mariadb start`
 #######Check status
@@ -302,9 +312,12 @@ baseurl=https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.9/
 gpgkey =https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera    
 gpgcheck = 1
 ```
+
+######Maybe Start NTP service
+sudo service ntpd start
 ######Copy that content into this directory
 `sudo nano /etc/yum.repos.d/cloudera-manager.repo`
-######Install CM daemons
+######Install CM daemons on all nodes inclusind lion
 `sudo yum install cloudera-manager-daemons cloudera-manager-server`
 ######Prepare the database for CM
 `sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql cmserver cmserveruser password`
