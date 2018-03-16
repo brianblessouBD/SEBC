@@ -324,7 +324,8 @@ sudo service ntpd start
 ######Install CM daemons on all nodes inclusind lion
 `sudo yum install cloudera-manager-daemons cloudera-manager-server`
 ######Prepare the database for CM
-`sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql cmserver cmserveruser password`
+`sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql scm cmserveruser password`
+/etc/cloudera-scm-server/db.properties
 ######Start CM
 `sudo service cloudera-scm-server start`
 ```
