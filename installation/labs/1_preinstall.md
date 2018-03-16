@@ -216,16 +216,18 @@ pid-file=/var/run/mariadb/mariadb.pid
 mariadb.service                               enabled
 ```
 
-sudo /usr/bin/mysql_secure_installation
+
 
 ######start MariaDB to finish config
 `[root@lion phadmin]# sudo service mariadb start`
+
+sudo /usr/bin/mysql_secure_installation
 #######Check status
 `[root@lion phadmin]# sudo service mariadb status`
 ######Create script repository
  `[root@lion phadmin]# mkdir script`
 ######Script to create DB
-`[root@lion phadmin]# sudo nano /home/phadmin/script/create_db.sql`
+`[root@lion phadmin]# sudo nano script/create_db.sql`
 ```
 CREATE DATABASE cmserver DEFAULT CHARACTER SET utf8;
 CREATE DATABASE rman DEFAULT CHARACTER SET utf8;
@@ -247,6 +249,8 @@ GRANT ALL on navms.* TO 'navmsuser'@'%' IDENTIFIED BY 'password';
 GRANT ALL on hue.* TO 'hueuser'@'%' IDENTIFIED BY 'password';
 GRANT ALL on oozie.* TO 'oozieuser'@'%' IDENTIFIED BY 'password';
 ```
+
+mysql -uroot -proot < script/create_db.sql
 ######Check if databases exist
 `[root@lion phadmin]# mysql -uroot -proot`
 ```
