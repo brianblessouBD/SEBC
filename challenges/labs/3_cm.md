@@ -82,7 +82,10 @@ drwxrwxr-x   - oozie  oozie           0 2018-03-16 10:59 /user/oozie
     "numPhysicalCores" : 4,
     "totalPhysMemBytes" : 29494411264
   } ]
-}[hdfs@horse brian]$ curl -u admin:admin 'http://52.138.194.82:7180/api/v8/clusters'
+}
+```
+```
+[hdfs@horse brian]$ curl -u admin:admin 'http://52.138.194.82:7180/api/v8/clusters'
 {
   "items" : [ {
     "name" : "cluster",
